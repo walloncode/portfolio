@@ -79,7 +79,7 @@ const SkillsSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative py-20 px-6 overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black">
+    <section id='skills' ref={sectionRef} className="relative py-20 px-6 overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black">
 
       {/* 🌌 BACKGROUND TECH ANIMADO */}
       <div className="absolute inset-0 overflow-hidden">

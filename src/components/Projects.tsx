@@ -162,7 +162,7 @@ const Projects = () => {
 
         {/* HEADER */}
         <div className={`text-center mb-16 ${isVisible ? 'fade-in-up' : 'opacity-0'}`}>
-          <h2 className="text-5xl font-bold text-white">Projetos</h2>
+          <h2 className="text-5xl font-bold text-white">Projetos em alta</h2>
           <div className="h-1 w-24 mx-auto bg-gradient-to-r from-cyan-400 via-green-400 to-pink-400 mt-4"></div>
         </div>
 
