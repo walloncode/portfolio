@@ -1,148 +1,235 @@
-import { ExternalLink, Users, Database, LayoutGrid as Layout, Code2 } from 'lucide-react';
+import {
+  ExternalLink,
+  Users,
+  Database,
+  LayoutGrid as Layout,
+  Code2,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 const Projects = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
 
-  const projects = [
+  useEffect(() => {
+    const container = carouselRef.current;
+    if (!container) return;
+
+    let scrollAmount = 0;
+
+    const interval = setInterval(() => {
+      if (!container) return;
+
+      scrollAmount += 1;
+
+      if (scrollAmount >= container.scrollWidth - container.clientWidth) {
+        scrollAmount = 0;
+      }
+
+      container.scrollTo({
+        left: scrollAmount,
+        behavior: 'smooth',
+      });
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // 🔥 PROJETOS PRINCIPAIS (SEUS REAIS)
+  const mainProjects = [
     {
       title: 'Kiuseven',
       description: 'Projeto desenvolvido como freelancer',
       icon: Users,
       color: 'cyan',
-      tags: ['TAILWIND', 'HTML5, CSS3, JS', 'UI/UX', 'FIGMA', 'ELEMENTOR', 'WORDPRESS'],
-      link: 'https://www.kiuseven.com.br'
+      link: 'https://www.kiuseven.com.br',
     },
     {
       title: 'WKcode',
       description: 'Projeto focado em desenvolvimento e soluções digitais',
       icon: Database,
       color: 'green',
-      tags: ['HTML5, CSS3, JS', 'UI/UX', 'FIGMA', 'ELEMENTOR', 'WORDPRESS'],
-      link: 'https://www.wkcode.com.br'
+      link: 'https://www.wkcode.com.br',
     },
     {
       title: 'Interfaces UI',
       description: 'Inspiradas em Facebook e Starbucks',
       icon: Layout,
       color: 'pink',
-      tags: ['Frontend', 'Design', 'CSS'],
+      link: '#',
     },
     {
-      title: 'Fullstackdozero',
-      description: 'Ainda em desenvolvimento, versão até então não responsiva site de cursos...',
+      title: 'Fullstack do Zero',
+      description: 'Projeto educacional de desenvolvimento web',
       icon: Code2,
       color: 'purple',
-      tags: ['HTML5, CSS3, JS', 'UI/UX', 'FIGMA', 'ELEMENTOR', 'WORDPRESS'],
-      link: 'https://www.fullstackdozero.com'
+      link: 'https://www.fullstackdozero.com',
     },
   ];
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      cyan: 'border-cyan-400 hover:border-cyan-300 hover:shadow-cyan-500/50',
-      green: 'border-green-400 hover:border-green-300 hover:shadow-green-500/50',
-      pink: 'border-pink-400 hover:border-pink-300 hover:shadow-pink-500/50',
-      purple:'bg-purple-500/20 text-purple-400 border-purple-400 hover:shadow-purple-500/50'
+  const projects = [
+    {
+      title: 'Portfolio',
+      description: 'Meu portfólio pessoal com React + TypeScript',
+      icon: Code2,
+      color: 'cyan',
+      link: 'https://github.com/walloncode/portfolio',
+    },
+    {
+      title: 'Facebook Login Prototype',
+      description: 'Protótipo de login estilo Facebook',
+      icon: Layout,
+      color: 'green',
+      link: 'https://github.com/kmilasantos/IFRO-3A-ProgWeb-FacebookLoginPrototype-2025',
+    },
+    {
+      title: 'Site de Tarefas',
+      description: 'Sistema simples de tarefas em FLASK',
+      icon: Database,
+      color: 'purple',
+      link: 'https://github.com/walloncode/Site-de-tarefas',
+    },
+    {
+      title: 'Cadastro de Alunos',
+      description: 'Sistema em Python',
+      icon: Users,
+      color: 'cyan',
+      link: 'https://github.com/walloncode/cadastro-alunos',
+    },
+    {
+      title: 'Projeto Flask',
+      description: 'Framework Flask em testes',
+      icon: Code2,
+      color: 'green',
+      link: 'https://github.com/walloncode/projeto-flask',
+    },
+    {
+      title: 'Tela Starbucks',
+      description: 'Interface inspirada na Starbucks',
+      icon: Layout,
+      color: 'pink',
+      link: 'https://github.com/walloncode/Tela-do-starbucks',
+    },
+    {
+      title: 'IFROGram Projeto Escolar',
+      description: 'Experimentos CSS e layout',
+      icon: Code2,
+      color: 'purple',
+      link: 'https://github.com/walloncode/ifrogram-testee.git',
+    },
+  ];
+
+  const getColor = (color: string) => {
+    const colors: any = {
+      cyan: 'border-cyan-400 hover:shadow-cyan-500/50',
+      green: 'border-green-400 hover:shadow-green-500/50',
+      pink: 'border-pink-400 hover:shadow-pink-500/50',
+      purple: 'border-purple-400 hover:shadow-purple-500/50',
     };
-    return colors[color as keyof typeof colors];
+    return colors[color];
   };
 
-  const getIconColor = (color: string) => {
-    const colors = {
-      cyan: 'text-cyan-400 bg-cyan-500/20',
-      green: 'text-green-400 bg-green-500/20',
-      pink: 'text-pink-400 bg-pink-500/20',
-      purple:'text-purple-400 bg-purple-400/20'
+  const getIcon = (color: string) => {
+    const colors: any = {
+      cyan: 'text-cyan-400',
+      green: 'text-green-400',
+      pink: 'text-pink-400',
+      purple: 'text-purple-400',
     };
-    return colors[color as keyof typeof colors];
-  };
-
-  const getTagColor = (color: string) => {
-    const colors = {
-      cyan: 'bg-cyan-500/20 text-cyan-400 border-cyan-400/30',
-      green: 'bg-green-500/20 text-green-400 border-green-400/30',
-      pink: 'bg-pink-500/20 text-pink-400 border-pink-400/30',
-      purple:'bg-purple-500/20 text-purple-400 border-purple-400/30'
-    };
-    return colors[color as keyof typeof colors];
+    return colors[color];
   };
 
   return (
-    <section id="projects" ref={sectionRef} className="min-h-screen py-20 px-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"></div>
+    <section ref={sectionRef} id="projects" className="py-20 px-4 relative">
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto">
+
+        {/* HEADER */}
         <div className={`text-center mb-16 ${isVisible ? 'fade-in-up' : 'opacity-0'}`}>
-          <h2 className="text-5xl md:text-6xl font-bold mb-4 glow-text">Projetos Recentes</h2>
-          <div className="h-1 w-24 bg-gradient-to-r from-cyan-400 via-green-400 to-pink-400 mx-auto rounded-full glow-bar"></div>
+          <h2 className="text-5xl font-bold text-white">Projetos</h2>
+          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-cyan-400 via-green-400 to-pink-400 mt-4"></div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+        {/* 🔥 PROJETOS PRINCIPAIS (FIXO) */}
+        <div className="grid md:grid-cols-3 gap-6 mb-20">
+
+          {mainProjects.map((project, index) => (
             <a
+              key={project.title}
               href={project.link}
               target="_blank"
-              rel="noopener noreferrer"
-              key={project.title}
-              className={`project-card glass-card p-6 border-2 ${getColorClasses(project.color)} group cursor-pointer ${
-                isVisible ? 'slide-in-up' : 'opacity-0'
-              }`}
-              style={{ animationDelay: `${index * 150}ms` }}
+              className={`p-6 border-2 rounded-xl glass-card transition ${getColor(project.color)}`}
+              style={{ animationDelay: `${index * 120}ms` }}
             >
-              <div className="flex flex-col h-full">
-                <div className={`p-4 rounded-lg ${getIconColor(project.color)} w-fit mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <project.icon className="w-8 h-8" />
-                </div>
-
-                <h3 className="text-2xl font-bold mb-3 text-white group-hover:glow-text transition-all duration-300">
-                  {project.title}
-                </h3>
-  
-                <p className="text-gray-400 mb-4 flex-grow">{project.description}</p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className={`px-3 py-1 rounded-full text-xs border ${getTagColor(project.color)}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ExternalLink className="w-4 h-4" />
-                  <span>Ver detalhes</span>
-                </div>
+              <div className={`mb-3 ${getIcon(project.color)}`}>
+                <project.icon className="w-7 h-7" />
               </div>
+
+              <h3 className="text-white font-bold mb-2">
+                {project.title}
+              </h3>
+
+              <p className="text-gray-400 text-sm">
+                {project.description}
+              </p>
+            </a>
+          ))}
+
+        </div>
+
+      </div>
+
+      {/* 🔥 CARROSSEL FULL WIDTH */}
+      <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] mt-10">
+
+        <h3 className="text-2xl text-white font-bold mb-32 text-center">
+          Outros Projetos
+        </h3>
+
+        <div
+          ref={carouselRef}
+          className="flex gap-6 overflow-x-hidden scroll-smooth px-10 py-10"
+        >
+          {projects.map((project) => (
+            <a
+              key={`carousel-${project.title}`}
+              href={project.link}
+              target="_blank"
+              className="min-w-[300px] flex-shrink-0 p-10 border border-gray-700 rounded-xl glass-card hover:border-cyan-400 transition"
+            >
+              <div className={`mb-3 ${getIcon(project.color)}`}>
+                <project.icon className="w-6 h-6" />
+              </div>
+
+              <h4 className="text-white font-bold mb-2">
+                {project.title}
+              </h4>
+
+              <p className="text-gray-400 text-sm">
+                {project.description}
+              </p>
             </a>
           ))}
         </div>
+
       </div>
+
     </section>
   );
 };
