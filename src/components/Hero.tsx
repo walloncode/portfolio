@@ -84,7 +84,7 @@ const Hero = () => {
       {/* ⬇️ SCROLL */}
       <button
         onClick={scrollToAbout}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-cyan-400 animate-bounce cursor-pointer hover:text-green-400 transition-colors"
+        className="absolute bottom-8 transform -translate-x-1/2 text-cyan-400 animate-bounce cursor-pointer hover:text-green-400 transition-colors "
       >
         <ChevronDown size={48} />
       </button>
